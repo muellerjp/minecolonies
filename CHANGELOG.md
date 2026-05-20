@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- *(release)* Changing the build file names; and only submitting one file to curseforge
+## [omc-v0.0.1] - 2026-05-20
+
+### 🐛 Bug Fixes
+
 - *(pipelines)* Fixing branch filters and add custom tag prefix
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Update CHANGELOG.md
 ## [ocm-v0.0.1] - 2026-05-20
 
 ### 🚀 Features
