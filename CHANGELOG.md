@@ -5,6 +5,11 @@
 - *(pipelines)* Adding release, build and changelog pipelines
 - *(logo)* Add open-minecolonies logo
 
+### 🐛 Bug Fixes
+
+- *(docu)* Updated readme with logo and disclaimer
+- *(release)* Adding cursforge-id
+
 ### 💼 Other
 
 - ImageButton added; Image sub-image offset/size; all copy constructors removed, as behavior was never supported.
@@ -67,4 +72,5 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(changelog)* Update CHANGELOG.md
 - *(changelog)* Update CHANGELOG.md
