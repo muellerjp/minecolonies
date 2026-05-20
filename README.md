@@ -1,11 +1,15 @@
-[![CLA assistant](https://cla-assistant.io/readme/badge/ldtteam/minecolonies)](https://cla-assistant.io/ldtteam/minecolonies)
-[![Build Status](https://buildsystem.ldtteam.com/app/rest/builds/buildType:LetSDevTogether_Minecolonies_Alpha_Release/statusIcon)](http://buildsystem.ldtteam.com/)
-[![Crowdin](https://badges.crowdin.net/minecolonies/localized.svg)](https://crowdin.com/project/minecolonies)
+> **Disclaimer:** This might be a temporary fork.
+> This branch and any releases from it may be discontinued if the changes are successfully merged into the official [MineColonies](https://github.com/ldtteam/minecolonies) repository.
 
-![mcol logo](minecolonies_logo.png)
+<img src="open-minecol.png" alt="open mcol logo" width="400"/>
 
 
-# MineColonies
+
+
+# **Disclaimer:** This might be a temporary fork.
+This branch and any releases from it may be discontinued if the changes are successfully merged into the official [MineColonies](https://github.com/ldtteam/minecolonies) repository.
+
+## MineColonies
 
 MineColonies is an interactive building mod that allows you to create a thriving town within Minecraft. It lets your leadership skills soar by providing you with everything you need to build your kingdom. MineColonies gives you the flexibility to create a colony as unique as every player. With so many options, you'll create a different colony every time, adapt it to any biome, build inside a mountain, on top of one, under the ocean, or in the sky.
 
