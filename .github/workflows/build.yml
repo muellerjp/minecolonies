@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ tfp/version/1.21 ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ tfp/version/1.21 ]
+    branches: [ open-minecol/version/1.21 ]
 
 jobs:
   build:

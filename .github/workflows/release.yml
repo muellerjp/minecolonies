@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'omc-v*'
 
 permissions:
   contents: write
@@ -28,7 +28,7 @@ jobs:
 
       - name: Get version from tag
         id: version
-        run: echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+        run: echo "version=${GITHUB_REF#refs/tags/omc-v}" >> "$GITHUB_OUTPUT"
 
       - name: Generate release notes
         uses: orhun/git-cliff-action@v4
@@ -58,7 +58,7 @@ jobs:
           github-draft: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-          name: TerraFirmaPunk Revived Compat ${{ steps.version.outputs.version }}
+          name: open-minecolonies ${{ steps.version.outputs.version }}
           version: ${{ steps.version.outputs.version }}
           java: 21
           loaders: |

@@ -2,7 +2,7 @@ name: Update Changelog
 
 on:
   push:
-    branches: [ tfp/version/1.21 ]
+    branches: [ open-minecol/version/1.21 ]
     paths-ignore:
       - 'CHANGELOG.md'
 
