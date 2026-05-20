@@ -3,6 +3,7 @@
 ### 🚀 Features
 
 - *(pipelines)* Adding release, build and changelog pipelines
+- *(logo)* Add open-minecolonies logo
 
 ### 💼 Other
 
@@ -63,3 +64,7 @@
 - Tags and signs (#11613)
 - Infinite loop in resource gathering quarry (#11615)
 - Use regular placeholders instead of solid placeholders in the Colonial courier's hut (#11670)
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Update CHANGELOG.md
