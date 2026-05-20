@@ -1,5 +1,10 @@
 ## [unreleased]
 
+### 🐛 Bug Fixes
+
+- *(pipelines)* Fixing branch filters and add custom tag prefix
+## [ocm-v0.0.1] - 2026-05-20
+
 ### 🚀 Features
 
 - *(pipelines)* Adding release, build and changelog pipelines
@@ -9,6 +14,151 @@
 
 - *(docu)* Updated readme with logo and disclaimer
 - *(release)* Adding cursforge-id
+- *(tiers)* Make getItemTier and getItemLevel use nbt
+- *(naming)* Changed name of initVanillaEquipmentTiers to initRegisterEquipmentTiers.
+- *(miner)* Reverting tag-change to keep backwards compatibility for styles
+- *(miner)* Added todo to remove tag fallback in next major version; added devcontainer to gitignore
+- *(miner)* Removing hardcoded minecraft sign requirement. Replaced with tag check to allow all blocks that are registered as signs.
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Update CHANGELOG.md
+- *(changelog)* Update CHANGELOG.md
+- *(changelog)* Update CHANGELOG.md
+## [1.21.1-1.1.1313-snapshot] - 2026-05-19
+
+### 💼 Other
+
+- Use regular placeholders instead of solid placeholders in the Colonial courier's hut (#11670)
+## [1.21.1-1.1.1299-snapshot] - 2026-04-06
+
+### 💼 Other
+
+- Infinite loop in resource gathering quarry (#11615)
+## [1.21.1-1.1.1295-snapshot] - 2026-04-03
+
+### 💼 Other
+
+- Tags and signs (#11613)
+## [1.21.1-1.1.1280-snapshot] - 2026-02-22
+
+### 💼 Other
+
+- Several Dark Oak Treehouse fixes (#11556)
+## [1.21.1-1.1.1264-snapshot] - 2026-02-11
+
+### 💼 Other
+
+- Anchor in Colonial residence (#11538)
+## [1.21.1-1.1.1192] - 2025-11-14
+
+### 💼 Other
+
+- Smelting crafters could not request fuel (#11367)
+## [1.21.1-1.1.1168] - 2025-11-02
+
+### 💼 Other
+
+- Crafter infinite loop due to ingredient/craft count mismatch (#11305)
+## [1.21.1-1.1.1159] - 2025-10-26
+
+### 💼 Other
+
+- Postbox Minimum Stock, second attempt  (#11280)
+## [1.21.1-1.1.1152] - 2025-10-20
+
+### 💼 Other
+
+- New Fortress -> Cavern adapter decoration (#11279)
+## [1.21.1-1.1.1134] - 2025-09-23
+
+### 💼 Other
+
+- New Fortress gatehouse (#11207)
+## [1.21.1-1.1.1133] - 2025-09-22
+
+### 💼 Other
+
+- Rescan of Desert Oasis world gen files in 1.21 (#11188)
+## [1.21.1-1.1.1100] - 2025-08-24
+
+### 💼 Other
+
+- Both guard tower styles in Minecolonies Original looked the same (#11131)
+## [1.21.1-1.1.1061] - 2025-08-03
+
+### 💼 Other
+
+- Feature/colony connections (#11012)
+## [1.21.1-1.1.1033] - 2025-07-13
+
+### 💼 Other
+
+- New walls in Ancient Athens (#10996)
+## [1.21.1-1.1.1009] - 2025-06-22
+
+### 💼 Other
+
+- Alchemist, Apiary, Bakery (#10955)
+## [1.21.1-1.1.979] - 2025-06-01
+
+### 💼 Other
+
+- Remove fence towards the magma area of the Desert Oasis nether mine (#10910)
+## [1.21.1-1.1.951] - 2025-05-10
+
+### 💼 Other
+
+- New alternative half chunk Fortress library (#10838)
+## [1.21.1-1.1.819] - 2024-12-08
+
+### 💼 Other
+
+- Rotation of pillarwalk4 (#10515)
+## [1.1.660-1.21.1-beta] - 2024-08-24
+
+### 💼 Other
+
+- Move domum crafting to its own tab (#10109)
+## [1.1.630] - 2024-08-18
+
+### 💼 Other
+
+- Quest log [1.20] (#9320)
+- Prevent crash on old corrupted job data on world upgrade
+- Fix crafters/couriers not fireable
+- Messages
+- Call sites
+- Attribute serialization changed - do we care?
+- Quarrier's interaction with the zigzag iterator (#9959)
+## [1.0.1190-ALPHA] - 2023-01-14
+
+### 💼 Other
+
+- Fix anchor point of the fortress mine (#8524)
+- Fix deprecation warning for getEnchantmentLevel (#8637)
+## [0.14.330-ALPHA] - 2021-08-15
+
+### 💼 Other
+
+- *(schemtic)* Walls fortress moatgatehouse (#7493)
+## [0.13.626-ALPHA] - 2021-02-18
+
+### 💼 Other
+
+- 4 new breads, only craftable by the baker! (#5970)
+- Fast pickup of specific items after crafting (#6067)
+## [0.10.291-ALPHA] - 2019-06-03
+
+### 💼 Other
+
+- Herder Requests
+## [0.10.290-ALPHA] - 2019-06-02
+
+### 💼 Other
+
+- RS Reassign on rack update (#3646)
+## [0.10.197-RELEASE] - 2018-12-28
 
 ### 💼 Other
 
@@ -36,41 +186,3 @@
 - Builder now creates a TileEntity if it is not present in the template.
 - Control possible lag in building's onWorldTick() (#2637)
 - Baker skipping last Recipe (#2650)
-- RS Reassign on rack update (#3646)
-- Herder Requests
-- 4 new breads, only craftable by the baker! (#5970)
-- Fast pickup of specific items after crafting (#6067)
-- *(schemtic)* Walls fortress moatgatehouse (#7493)
-- Fix anchor point of the fortress mine (#8524)
-- Fix deprecation warning for getEnchantmentLevel (#8637)
-- Quest log [1.20] (#9320)
-- Prevent crash on old corrupted job data on world upgrade
-- Fix crafters/couriers not fireable
-- Messages
-- Call sites
-- Attribute serialization changed - do we care?
-- Quarrier's interaction with the zigzag iterator (#9959)
-- Move domum crafting to its own tab (#10109)
-- Rotation of pillarwalk4 (#10515)
-- New alternative half chunk Fortress library (#10838)
-- Remove fence towards the magma area of the Desert Oasis nether mine (#10910)
-- Alchemist, Apiary, Bakery (#10955)
-- New walls in Ancient Athens (#10996)
-- Feature/colony connections (#11012)
-- Both guard tower styles in Minecolonies Original looked the same (#11131)
-- Rescan of Desert Oasis world gen files in 1.21 (#11188)
-- New Fortress gatehouse (#11207)
-- New Fortress -> Cavern adapter decoration (#11279)
-- Postbox Minimum Stock, second attempt  (#11280)
-- Crafter infinite loop due to ingredient/craft count mismatch (#11305)
-- Smelting crafters could not request fuel (#11367)
-- Anchor in Colonial residence (#11538)
-- Several Dark Oak Treehouse fixes (#11556)
-- Tags and signs (#11613)
-- Infinite loop in resource gathering quarry (#11615)
-- Use regular placeholders instead of solid placeholders in the Colonial courier's hut (#11670)
-
-### ⚙️ Miscellaneous Tasks
-
-- *(changelog)* Update CHANGELOG.md
-- *(changelog)* Update CHANGELOG.md
