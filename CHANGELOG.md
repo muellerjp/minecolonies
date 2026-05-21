@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- *(release)* Testing build folders
+## [omc-v0.0.4] - 2026-05-21
+
+### 🐛 Bug Fixes
+
 - *(release)* Typo
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Update CHANGELOG.md
 ## [omc-v0.0.3] - 2026-05-21
 
 ### 🐛 Bug Fixes
