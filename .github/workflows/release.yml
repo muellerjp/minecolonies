@@ -46,40 +46,16 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.version }}
 
-      - name: Rename artifacts
-        run: |
-          VER="${{ steps.version.outputs.version }}"
-          mkdir -p build/release
-          cp build/libs/*-sources.jar \
-            "build/release/open-minecolonies-${VER}-sources.jar"
-          MAIN=$(ls build/libs/*.jar | grep -v -- '-sources' | grep -v -- '-javadoc' | head -1)
-          cp "$MAIN" "build/release/open-minecolonies-${VER}.jar"
-
       - name: Publish to CurseForge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-id: 1548755
           curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
-          files: build/release/open-minecolonies-${{ steps.version.outputs.version }}-sources.jar
+          files: build/libs/open-minecolonies-${{ steps.version.outputs.version }}.jar
 
-          name: open-minecolonies ${{ steps.version.outputs.version }}
-          version: ${{ steps.version.outputs.version }}
-          java: 21
-          loaders: |
-            neoforge
-          game-versions: |
-            1.21.1
-          changelog-file: RELEASE_NOTES.md
-
-      - name: Create GitHub Release
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
           github-tag: ${{ github.ref }}
           github-draft: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          files: |
-            build/release/open-minecolonies-${{ steps.version.outputs.version }}.jar
-            build/release/open-minecolonies-${{ steps.version.outputs.version }}-sources.jar
 
           name: open-minecolonies ${{ steps.version.outputs.version }}
           version: ${{ steps.version.outputs.version }}

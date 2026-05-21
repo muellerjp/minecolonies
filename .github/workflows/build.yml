@@ -26,8 +26,7 @@ jobs:
         id: version
         run: |
           TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
-          HASH=$(git rev-parse --short HEAD)
-          echo "version=${TAG#v}-SNAPSHOT-${HASH}" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#omc-v}" >> "$GITHUB_OUTPUT"
 
       - name: Build
         uses: gradle/gradle-build-action@v3
