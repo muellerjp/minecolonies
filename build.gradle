@@ -20,11 +20,9 @@ sourceSets.main {
 // ── Local sibling project paths ────────────────────────────────────────────────
 // Paths to local sibling projects — supply via -P flags or gradle.properties.
 // When absent the build falls back to Maven artifacts.
-def minecoloniesDir  = findProperty('minecoloniesProjectDir')
 def tfcDir           = findProperty('tfcProjectDir')
 def tfcCompatDir     = findProperty('tfcMinecolCompatProjectDir')
 
-def mcLibsDir     = minecoloniesDir ? project.file("${minecoloniesDir}/build/libs")    : null
 def tfcLibsDir    = tfcDir          ? project.file("${tfcDir}/build/libs")             : null
 def compatLibsDir = tfcCompatDir    ? project.file("${tfcCompatDir}/build/libs")       : null
 
@@ -35,32 +33,16 @@ def collectJars = { File dir, List<String> excludeTokens ->
     } ?: []) : []
 }
 
-def mcJarList     = collectJars(mcLibsDir,     ['-sources', '-javadoc', '-slim', '-api'])
 def tfcJarList    = collectJars(tfcLibsDir,    ['-sources', '-javadoc'])
 def compatJarList = collectJars(compatLibsDir, ['-sources', '-javadoc'])
-def mcJars        = files(mcJarList)
 def tfcJars       = files(tfcJarList)
 def compatJars    = files(compatJarList)
 
-if (minecoloniesDir && mcJarList.isEmpty())
-    logger.lifecycle('[OMC-NeoForge] MineColonies local build not found in specified path — companion mods will still be loaded.')
 if (tfcDir && tfcJarList.isEmpty())
     logger.lifecycle('[OMC-NeoForge] TerraFirmaCraft local build not found in specified path — companion mods will still be loaded.')
-if (compatJarList.isEmpty())
+if (tfcCompatDir &&compatJarList.isEmpty())
     logger.lifecycle('[OMC-NeoForge] tfc-minecol-compat local build not found — skipping (optional runtime dep).')
 
-// ── Companion-version resolution ──────────────────────────────────────────────
-// Read companion-mod versions from minecolonies/gradle.properties so the run
-// client/server always use matching dependency versions.
-// Falls back to this project's own gradle.properties when that file is absent.
-def mcPropsFile    = minecoloniesDir ? project.file("${minecoloniesDir}/gradle.properties") : null
-def mcSiblingProps = new Properties()
-if (mcPropsFile?.exists()) {
-    mcPropsFile.withInputStream { mcSiblingProps.load(it) }
-}
-def resolveVersion = { String key ->
-    (mcSiblingProps.getProperty(key) ?: project.findProperty(key)) as String
-}
 
 // ── Runtime-companion configuration ───────────────────────────────────────────
 // Holds jars that must be present in the game's mods/ folder at runtime but are
@@ -75,12 +57,12 @@ configurations {
 
 // Sync tasks copy all runtime mod jars into the game directory before each run.
 def syncClientMods = tasks.register('syncClientMods', Sync) {
-    from mcJars, tfcJars, compatJars, configurations.runtimeMods
+    from tfcJars, compatJars, configurations.runtimeMods
     into project.file('run/client/mods')
 }
 
 def syncServerMods = tasks.register('syncServerMods', Sync) {
-    from mcJars, tfcJars, compatJars, configurations.runtimeMods
+    from tfcJars, compatJars, configurations.runtimeMods
     into project.file('run/server/mods')
 }
 
@@ -89,6 +71,7 @@ repositories {
     maven { url = 'https://maven.fabricmc.net/' }           // fabric-loader annotation stubs
     maven { url = 'https://ldtteam.jfrog.io/ldtteam/modding/' }
     maven { url = 'https://maven.dries007.net/' }
+    maven { url = 'https://jm.gserv.me/repository/maven-public/' }  // JourneyMap API
     maven { url = 'https://maven.blamejared.com' }
     maven { url = 'https://api.modrinth.com/maven' }
     maven { url = "https://nexus.resourcefulbees.com/repository/maven-public/" }
@@ -131,18 +114,32 @@ dependencies {
     // Architectury Loom injects these automatically; with moddev we add them explicitly.
     compileOnly "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-    // ── MineColonies (runtime only — not a compile dependency of HQM) ──────────
-    // Only loaded when a local path is provided via -PminecoloniesProjectDir=...
-    // The companion mods (structurize, blockui, etc.) are required alongside it.
-    if (minecoloniesDir) {
-        if (!mcJarList.isEmpty()) {
-            runtimeMods mcJars
-        }
-        runtimeMods "com.ldtteam:structurize:${resolveVersion('structurize_version')}"
-        runtimeMods "com.ldtteam:blockui:${resolveVersion('blockUI_version')}"
-        runtimeMods "com.ldtteam:domum-ornamentum:${resolveVersion('domumOrnamentumVersion')}"
-        runtimeMods "com.ldtteam:multipiston:${resolveVersion('multiPistonVersion')}"
+    // ── LDTTeam compile + runtime dependencies ──────────────────────────────
+    implementation("com.ldtteam:structurize:${project.structurize_version}")       { transitive = false }
+    implementation("com.ldtteam:blockui:${project.blockUI_version}")               { transitive = false }
+    implementation("com.ldtteam:domum-ornamentum:${project.domumOrnamentumVersion}") { transitive = false }
+    implementation("com.ldtteam:multipiston:${project.multiPistonVersion}")        { transitive = false }
+    implementation("com.ldtteam:datagenerators:${project.dataGeneratorsVersion}:universal") { transitive = false }
+
+    // JEI API needed at compile time for optional compat code
+    compileOnly  "mezz.jei:jei-${project.jei_mcversion}-neoforge-api:${project.jei_version}"
+    runtimeMods  "mezz.jei:jei-${project.jei_mcversion}-neoforge:${project.jei_version}"
+
+    // JourneyMap API — compile-only compat stubs
+    compileOnly "info.journeymap:journeymap-api-neoforge:${project.jmapApiVersion}"
+
+    // DynamicTrees — compile-only when runWithDynamicTrees=false
+    if (project.findProperty("runWithDynamicTrees")?.toString()?.toBoolean() == true) {
+        implementation("com.dtteam.dynamictrees:dynamictrees-neoforge-${project.dynamicTreesMcVersion}:${project.dynamicTreesVersion}") { transitive = false }
+    } else {
+        compileOnly("com.dtteam.dynamictrees:dynamictrees-neoforge-${project.dynamicTreesMcVersion}:${project.dynamicTreesVersion}") { transitive = false }
     }
+
+    // ── MineColonies runtime mods (also needed in the game's mods/ folder) ──
+    runtimeMods "com.ldtteam:structurize:${project.structurize_version}"
+    runtimeMods "com.ldtteam:blockui:${project.blockUI_version}"
+    runtimeMods "com.ldtteam:domum-ornamentum:${project.domumOrnamentumVersion}"
+    runtimeMods "com.ldtteam:multipiston:${project.multiPistonVersion}"
 
     // ── TerraFirmaCraft (runtime only) ─────────────────────────────────────────
     // Only loaded when a local path is provided via -PtfcProjectDir=...
@@ -156,9 +153,6 @@ dependencies {
         runtimeMods "vazkii.patchouli:Patchouli:${findProperty('patchouliVersion')}"
     }
 
-    // ── Just Enough Items ─────────────────────────────────────────────────────
-    runtimeMods "mezz.jei:jei-1.21.1-neoforge:${rootProject.jei_version}"
-
     // ── tfc-minecol-compat (runtime only, local builds only) ──────────────────
     if (!compatJarList.isEmpty()) {
         runtimeMods compatJars
@@ -167,8 +161,18 @@ dependencies {
 
 tasks.withType(ProcessResources).configureEach {
     def replaceProperties = [
-        mod_version       : project.version,
-        minecraft_version : '1.21.1',
+        version              : project.version,
+        mod_version          : project.version,
+        minecraft_version    : project.exactMinecraftVersion,
+        fml_range            : project.fml_range,
+        minecraft_range      : project.minecraft_range,
+        forgeMinVersion      : project.forgeMinVersion,
+        structurize_version  : project.structurize_version,
+        blockUI_version      : project.blockUI_version,
+        jei_version          : project.jei_version,
+        domumOrnamentumVersion: project.domumOrnamentumVersion,
+        jmapVersion          : project.jmapVersion,
+        dynamicTreesVersion  : project.dynamicTreesVersion,
     ]
     inputs.properties replaceProperties
     filesMatching(['META-INF/neoforge.mods.toml']) {
