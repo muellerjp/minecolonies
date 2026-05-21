@@ -2,11 +2,17 @@
 
 ### 🐛 Bug Fixes
 
+- *(release)* Typo
+## [omc-v0.0.3] - 2026-05-21
+
+### 🐛 Bug Fixes
+
 - *(build+release)* Wrote custom build.gradle for runClient and build testing with other mods; updated gradle properties; fixed build.yml to produce correct version strings; simplyfied release.yml
 - *(build)* Updated versions in gradle.properties; updated minecolonies dependencies to implementation dependencies
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(changelog)* Update CHANGELOG.md
 - *(changelog)* Update CHANGELOG.md
 ## [omc-v0.0.2] - 2026-05-20
 
