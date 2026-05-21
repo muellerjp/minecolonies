@@ -51,7 +51,7 @@ jobs:
         with:
           curseforge-id: 1548755
           curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
-          files: build/libs/open-minecolonies-${{ steps.version.outputs.version }}.jar
+          files: build/libs/open-minecolonies-1.21.1-${{ steps.version.outputs.version }}.jar
 
           github-tag: ${{ github.ref }}
           github-draft: true
