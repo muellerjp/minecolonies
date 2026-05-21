@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- *(release)* Fixing fileversions to include tags with clear fallback
+## [omc-v0.0.5] - 2026-05-21
+
+### 🐛 Bug Fixes
+
 - *(release)* Testing build folders
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Update CHANGELOG.md
 ## [omc-v0.0.4] - 2026-05-21
 
 ### 🐛 Bug Fixes
