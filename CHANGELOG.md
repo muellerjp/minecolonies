@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- *(dependencies)* Updateing versions of the minecol dependencies
+## [omc-v0.0.6] - 2026-05-21
+
+### 🐛 Bug Fixes
+
 - *(release)* Fixing fileversions to include tags with clear fallback
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Update CHANGELOG.md
 ## [omc-v0.0.5] - 2026-05-21
 
 ### 🐛 Bug Fixes
