@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- *(translation)* Removing the languagehandler path call
+## [omc-v0.0.7] - 2026-05-22
+
+### 🐛 Bug Fixes
+
 - *(dependencies)* Updateing versions of the minecol dependencies
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Update CHANGELOG.md
 ## [omc-v0.0.6] - 2026-05-21
 
 ### 🐛 Bug Fixes
