@@ -2,7 +2,16 @@
 
 ### 🐛 Bug Fixes
 
+- *(translation)* Reenabling translations properly for open-minecolonies
+## [omc-v0.0.8] - 2026-05-22
+
+### 🐛 Bug Fixes
+
 - *(translation)* Removing the languagehandler path call
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Update CHANGELOG.md
 ## [omc-v0.0.7] - 2026-05-22
 
 ### 🐛 Bug Fixes
