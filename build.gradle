@@ -1,3 +1,6 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
 plugins {
     id 'net.neoforged.moddev' version '2.0.107'
 }
@@ -16,6 +19,8 @@ base {
 sourceSets.main {
     java.srcDirs      += rootProject.file('common/src/main/java')
     resources.srcDirs += rootProject.file('common/src/main/resources')
+    resources.srcDirs += rootProject.file("src/datagen/generated/${project.modId}")
+    resources.exclude '.cache/**'
 }
 
 // ── Local sibling project paths ────────────────────────────────────────────────
@@ -160,6 +165,10 @@ dependencies {
     }
 }
 
+tasks.withType(Copy).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 tasks.withType(ProcessResources).configureEach {
     def replaceProperties = [
         version              : project.version,
@@ -179,4 +188,62 @@ tasks.withType(ProcessResources).configureEach {
     filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties
     }
+}
+
+// ── Translation merge (replicates OPC mergeTranslations task) ─────────────────
+if (project.findProperty('usesMergableTranslations')?.toBoolean()) {
+    def getIndexedStringList = { String base ->
+        def result = []
+        for (int i = 0; ; i++) {
+            def val = project.properties["${base}[${i}]"]
+            if (!val) break
+            result << val.toString().trim()
+        }
+        result
+    }
+    def translationSourceNames = getIndexedStringList('translationMergeSources')
+    def translationTargetNames = getIndexedStringList('translationMergeDestination')
+
+    if (translationSourceNames && translationTargetNames) {
+        def translationSources = translationSourceNames.collect { file(it) }
+        def translationTargets = translationTargetNames.collect { file(it) }
+
+        tasks.register('mergeTranslations') {
+            inputs.files  translationSources
+            outputs.files translationTargets
+            doLast {
+                if (translationSources.size() >= 1) {
+                    def initialFile = translationSources[0]
+                    if (!initialFile.exists())
+                        throw new RuntimeException("Translation source file ${initialFile} does not exist!")
+
+                    def slurper = new JsonSlurper()
+                    logger.lifecycle(" > Reading translations from: ${translationSourceNames[0]}")
+                    def merged = slurper.parse(initialFile, 'UTF-8')
+
+                    for (int i = 1; i < translationSources.size(); i++) {
+                        def otherFile = translationSources[i]
+                        if (!otherFile.exists())
+                            throw new RuntimeException("Translation source file ${otherFile} does not exist!")
+                        logger.lifecycle(" > Reading translations from: ${translationSourceNames[i]}")
+                        merged += slurper.parse(otherFile, 'UTF-8')
+                    }
+
+                    translationTargets.eachWithIndex { targetFile, i ->
+                        if (targetFile.exists()) targetFile.delete()
+                        logger.lifecycle(" > Writing translations to: ${translationTargetNames[i]}")
+                        targetFile.write(JsonOutput.prettyPrint(JsonOutput.toJson(merged)), 'UTF-8')
+                    }
+                }
+            }
+        }
+        tasks.processResources.dependsOn 'mergeTranslations'
+    }
+}
+
+// ── Exclude source-only translation files from the packaged jar ────────────────
+// Mirrors OPC's mainExcludedResources → sourceSet.resources.exclude behaviour.
+def mainExcluded = project.findProperty('mainExcludedResources')?.toString()
+if (mainExcluded) {
+    sourceSets.main.resources.exclude(*mainExcluded.split(';').collect { it.trim() })
 }

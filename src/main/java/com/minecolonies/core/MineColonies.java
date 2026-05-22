@@ -109,6 +109,11 @@ public class MineColonies
         final IEventBus modBus = modContainer.getEventBus();
         final IEventBus forgeBus = NeoForge.EVENT_BUS;
 
+        final ClassLoader prev = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(MineColonies.class.getClassLoader());
+        LanguageHandler.loadLangPath("assets/minecolonies/lang/%s.json");
+        Thread.currentThread().setContextClassLoader(prev);
+
         config = new Configurations<>(modContainer, modBus, ClientConfiguration::new, ServerConfiguration::new, CommonConfiguration::new);
 
         ModArgumentTypes.ARGUMENT_TYPES.register(modBus);
